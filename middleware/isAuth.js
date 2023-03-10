@@ -6,7 +6,7 @@ if(!token){
    return res.send({msg:"No token!"})
 }
 
-const decoded=await jwt.verify(token,process.env.secretOrKey)
+const decoded=await jwt.verify(token,"hello")
 
 const user=await User.findById(decoded.id)
 if(!user){

@@ -12,7 +12,7 @@ import {
   } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { editBlog } from '../../redux/actions/blogAction';
-import "./blogcar.css"
+import "./blogcard.css"
 
 function EditBlog({blog}) {
    const[modal,setModal]=useState(false)

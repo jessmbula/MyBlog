@@ -18,7 +18,7 @@ function UserList() {
   
       {users && 
       users.map((el)=>(
-   el.name
+        <UserCard el={el}/>
       ))
       }
     </div>

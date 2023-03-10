@@ -11,6 +11,7 @@ import {
     Input,
     NavLink,
   } from 'reactstrap';
+import axios from 'axios';
 import { registerUser } from '../../redux/actions/userAction';
 import {useNavigate} from "react-router-dom"
 
@@ -20,6 +21,9 @@ function RegisterModal() {
   const[lastName,setLastName]=useState("")
   const[email,setEmail]=useState("")
   const[password,setPassword]=useState("")
+  const[image,setImage]=useState("")
+  const [uploading, setUploading] = useState(false);
+
 
 
 const toggle=()=>{
@@ -28,13 +32,33 @@ const toggle=()=>{
 const dispatch=useDispatch()
 const navigate=useNavigate()
 const register=()=>{
-  const newUser={name,lastName,email,password}
+  const newUser={name,lastName,email,password,image}
   console.log(newUser,"hello")
   dispatch(registerUser(newUser))
   toggle()
   navigate("/dashboard")
 
 }
+const uploadProfileImage = (e) => {
+  const file = e.target.files[0];
+  const bodyFormData = new FormData();
+  bodyFormData.append("image", file);
+  setUploading(true);
+  axios
+    .post("/api/uploads", bodyFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      setImage(response.data);
+      setUploading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setUploading(false);
+    });
+};
 
 
 
@@ -86,9 +110,35 @@ const register=()=>{
               name="password"
               id="password"
               placeholder="Password"
-              className="mb-3"
- 
+              className="mb-3" 
             />
+            <FormGroup>
+      <>
+                  {image ? (
+                    <img
+                      src={image}
+                      width="100%"
+                      style={{ margin: "8px 0" }}
+                      height="150px"
+                      alt="product"
+                    />
+                  ) : (
+                    <div style={{ margin: "8px 0" }}>
+                      {!uploading ? "Upload Image For Product" : "Loading ..."}
+                    </div>
+                  )}
+                  <div
+                  >
+                    Select File
+                    <input
+                      accept="image/*"
+                      type="file"
+
+                      onChange={uploadProfileImage}
+                    />
+                  </div>
+                </>
+      </FormGroup>
             <Button
               color="dark"
               style={{ marginTop: '2rem' }}

@@ -21,6 +21,7 @@ axios.get("/api/auth/user",config)
 .catch((err)=>console.log(err))
 }
 
+
 export const logoutUser=()=>(dispatch)=>{
 dispatch({
     type:LOGOUT_USER
@@ -40,4 +41,35 @@ export const getUsers=()=>(dispatch)=>{
    
 }
 
+//edit
 
+export const edituser=(iduser,editeduser)=>(dispatch)=>{
+    try{
+        const config={
+            headers:{"authorization":localStorage.getItem("token")
+        }}
+        console.log("ici c paris")
+    axios.put(`/api/auth/editAcount/${iduser}`,editeduser,config)
+    .then((res)=> {
+    
+        dispatch(getAuthUser())
+    })
+    .catch((err)=>console.log(err))
+}
+catch(error){
+    console.log(error)
+}
+}
+
+ //delete
+ export const deleteUser=(idUser)=>(dispatch)=>{
+    const option={
+       
+        headers:{
+            'authorization':localStorage.getItem('token'),
+        },}
+   
+    axios.delete(`/api/auth/delete/${idUser}`,option)
+    .then((res)=>dispatch(getUsers()))
+    .catch((err)=>console.log(err))
+    }

@@ -70,6 +70,9 @@ onChange={(e)=>setEmail(e.target.value)}
             >
               Login
             </Button>
+            <Button color="secondary" onClick={toggle}>
+          Cancel
+        </Button>
           </FormGroup>
         </Form>
       </ModalBody>
